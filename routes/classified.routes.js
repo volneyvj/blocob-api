@@ -4,7 +4,7 @@ const classifiedRepo = require('../repository/classifieds.dao');
 
 const router = Router();
 
-router.get('/list', async (req, res) => {
+router.post('/list', async (req, res) => {
     const { neighborhood } = req.body
   try {
     const classifieds = await classifiedRepo.getAllFromNeighborhood(neighborhood);
@@ -15,8 +15,8 @@ router.get('/list', async (req, res) => {
 });
 
 
-router.get('/list/search', async (req, res) => {
-    const search = req.query.search
+router.post('/list/search', async (req, res) => {
+    const { search } = req.body
     try {
       const classifieds = await classifiedRepo.getAllFromQuery(search);
       res.status(200).json(classifieds);
@@ -26,7 +26,8 @@ router.get('/list/search', async (req, res) => {
   });
 
   
-  router.get('/list/sort', async (req, res) => {
+  router.post('/list/sort', async (req, res) => {
+    const { neighborhood } = req.body
     try {
       const classifieds = await classifiedRepo.getTopEight(neighborhood);
       res.status(200).json(classifieds);
@@ -35,16 +36,17 @@ router.get('/list/search', async (req, res) => {
     }
   });
   
-  router.get('/list/user', async (req, res) => {
+  router.post('/list/user', async (req, res) => {
+    const { userID } = req.body
     try {
-      const classifieds = await classifiedRepo.getAllFromUser(user);
+      const classifieds = await classifiedRepo.getAllFromUser(userID);
       res.status(200).json(classifieds);
     } catch (error) {
       res.status(500).json({ message: 'Error while get classifieds' });
     }
   });
 
-  router.get('/list/:id', async (req, res) => {
+  router.get('/:id', async (req, res) => {
     const { id } = req.params
     try {
       const classifieds = await classifiedRepo.getSingleClassified(id);
