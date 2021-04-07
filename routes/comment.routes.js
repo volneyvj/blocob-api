@@ -4,7 +4,7 @@ const commentRepo = require('../repository/comments.dao');
 
 const router = Router();
 
-router.get('/list', async (req, res) => {
+router.post('/list', async (req, res) => {
     const { classifiedID } = req.body
   try {
     const comments = await commentRepo.getComment(classifiedID);
@@ -15,7 +15,7 @@ router.get('/list', async (req, res) => {
 });
 
 
-router.get('/list/answer', async (req, res) => {
+router.post('/list/answer', async (req, res) => {
     const answerOriginID = req.body
     try {
       const comment = await commentRepo.getAnsweredComment(answerOriginID);

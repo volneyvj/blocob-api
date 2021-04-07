@@ -8,6 +8,15 @@ class UserRepository {
     this.User = UserModel;
   }
 
+  async findAllUsers() {
+    try {
+      const user = await this.User.find();
+      return user;
+    } catch (err) {
+      throw new ApplicationError(err);
+    }
+  }
+
   async findUser(email) {
     try {
       const user = await this.User.findOne(email);
@@ -17,9 +26,18 @@ class UserRepository {
     }
   }
 
+  async findUserID(id) {
+    try {
+      const user = await this.User.findById(id);
+      return user;
+    } catch (err) {
+      throw new ApplicationError(err);
+    }
+  }
+
   async findNeighboors(neighborhood) {
     try {
-     const users = await this.User.find(neighborhood)
+     const users = await this.User.find({neighborhood})
       return users;
     } catch (err) {
       throw new ApplicationError(err);

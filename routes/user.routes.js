@@ -19,17 +19,19 @@ router.post("/signup", async (req, res) => {
 router.post("/login", async (req, res) => {
   const { email, password } = req.body;
   const user = await userRepo.findUser({email});
+  
 try {
   if (!user) {
     return res.status(400).json();
   }
 
   if (!authUtils.compare(password, user.passwordHash)) {
+    console.log('senha INCORRETA')
     return res.status(400).json();
   }
 
-  const payload = { id: user.id };
-  
+  const payload = { id: user._id };
+  console.log(payload)
   const token = jwt.sign(payload, process.env.TOKEN_SECRET, {
     expiresIn: '12h',
   });
@@ -59,8 +61,8 @@ router.post("/edit", async (req, res) => {
   }
   });
 
-  router.get('/usersn', async (req, res) => {
-    const neighborhood = req.body
+  router.post('/usersn', async (req, res) => {
+    const { neighborhood } = req.body
     try {
       const users = await userRepo.findNeighboors(neighborhood);
       res.status(200).json(users);
@@ -69,8 +71,9 @@ router.post("/edit", async (req, res) => {
     }
   });
 
-  router.get('/userdetails', async (req, res) => {
+  router.post('/userdetails', async (req, res) => {
     const email = req.body
+    console.log(email)
     try {
       const user = await userRepo.findUser(email);
       res.status(200).json(user);
@@ -79,5 +82,16 @@ router.post("/edit", async (req, res) => {
     }
   });
 
+  router.get('/allusers', async (req, res) => {
+    const email = req.body
+    try {
+      const user = await userRepo.findAllUsers();
+      res.status(200).json(user);
+    } catch (error) {
+      res.status(500).json({ message: 'Error while getting user' });
+    }
+  });
+
+  
   
 module.exports = router;

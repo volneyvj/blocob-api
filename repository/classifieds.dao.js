@@ -1,4 +1,5 @@
 const Classified = require('../models/Classified');
+const ApplicationError = require('../errors/ApplicationError');
 
 class ClassifiedRepository {
     constructor(ClassifiedModel) {
