@@ -31,6 +31,7 @@ router.use('/user', userRoutes);
 //   }
 // });
 
+
 router.use('/comment', commentRoutes);
 router.use('/classified', classifiedRoutes);
 

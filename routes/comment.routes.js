@@ -5,9 +5,9 @@ const commentRepo = require('../repository/comments.dao');
 const router = Router();
 
 router.post('/list', async (req, res) => {
-    const { classifiedID } = req.body
+    const { payload } = req.body
   try {
-    const comments = await commentRepo.getComment(classifiedID);
+    const comments = await commentRepo.getComment(payload);
     res.status(200).json(comments);
   } catch (error) {
     res.status(500).json({ message: 'Error while getting comments' });
@@ -28,6 +28,7 @@ router.post('/list/answer', async (req, res) => {
 
 
 router.post('/add', async (req, res) => {
+  console.log(req.body)
     const {  userId, category, classifiedID, answerOriginID, comment, status } = req.body
   try {
     const newComment = await commentRepo.postComment({  userId, category, classifiedID, answerOriginID, comment, status });
