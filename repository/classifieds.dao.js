@@ -69,6 +69,7 @@ class ClassifiedRepository {
     };
   
     addClassified = async (newClassified) => {
+        console.log(newClassified)
         try {
             const createdClassified = await this.classified.create(newClassified);
             return createdClassified;
@@ -78,11 +79,11 @@ class ClassifiedRepository {
     };
 
     updateClassified = async (editClassified) => {
-        const { id, userID, subcategory, title, neighborhood, description, imgURL, price, measure, delivery, motive, investiment, filePDF, address, desiredDate, status} = editClassified;
+        const { id, userID, subcategory, title, neighborhood, description, imgURL, price, measure, delivery, motive, investment, filePDF, address, desiredDate, status} = editClassified;
         try {
             const updatedClassified = await this.classified.findByIdAndUpdate(
                 id, {
-                    userID, subcategory, title, neighborhood, description, imgURL, price, measure, delivery, motive, investiment, filePDF, address, desiredDate, status
+                    subcategory, title, neighborhood, description, imgURL, price, measure, delivery, motive, investment, filePDF, address, desiredDate, status
                 }, {
                   new: true
                 }
@@ -94,13 +95,13 @@ class ClassifiedRepository {
     };
 
     rankClassified = async (classified) => {
-        const { id, likes, dislikes} = classified;
+        const { id } = classified;
+        console.log(classified)
         try {
             const rankedClassified = await this.classified.findByIdAndUpdate(
-                id, {
-                    likes, dislikes
-                }, {
-                  new: true
+                id, 
+{$push: {likes: "1",}},
+                {
                 }
               )
             return rankedClassified;
@@ -109,8 +110,8 @@ class ClassifiedRepository {
         }
     };
 
-    deleteClassified = async (classified) => {
-        const { id } = classified;
+    deleteClassified = async (id) => {
+        console.log(id)
         try {
             const deletedClassified = await this.classified.findByIdAndDelete(id)
             return deletedClassified;

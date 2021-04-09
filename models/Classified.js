@@ -11,7 +11,7 @@ const classifiedSchema = new Schema(
             type: String,
             max: 50,
         },
-        likes: [{ type: Schema.Types.ObjectId, ref: 'User' }],
+        likes: [String],
         dislikes: [{ type: Schema.Types.ObjectId, ref: 'User' }],
         title: {
             type: String,
@@ -30,7 +30,7 @@ const classifiedSchema = new Schema(
         }],
         // exclusivos projeto
         motive: String,
-        investiment: Number,
+        investment: Number,
         filePDF: String,
         address: String,
         desiredDate: Date,
