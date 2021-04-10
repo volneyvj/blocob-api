@@ -1,7 +1,9 @@
 const User = require('../models/User');
 const auth = require('../utils/auth.utils');
 const ApplicationError = require('../errors/ApplicationError');
-
+const jwt = require("jsonwebtoken");
+const { Router } = require("express");
+const router = Router();
 
 class UserRepository {
   constructor(UserModel) {
@@ -51,6 +53,10 @@ class UserRepository {
       const passwordHash = auth.encrypt(user.password);
       const newUser = new this.User( {...user, passwordHash} );
       newUser.save();
+      const payload = { id: newUser._id };
+      const token = jwt.sign(payload, process.env.TOKEN_SECRET, {
+        expiresIn: '12h',
+      });
       return newUser;
     } catch (err) {
       throw new ApplicationError(err);

@@ -10,7 +10,16 @@ router.post("/signup", async (req, res) => {
 
   try {
     const user = await userRepo.register(req.body);
-  return res.status(201).json(user);
+    // console.log(`esse eh o usuario ${user}`)
+    //  res.set("Authorization", token);
+    console.log(user)
+
+    const payload = { id: user._id };
+    const token = jwt.sign(payload, process.env.TOKEN_SECRET, {
+      expiresIn: '12h',
+    });
+    res.set("Authorization", token);
+    return res.status(201).json({ id: user._id, user: user.email, token });
   } catch (error) {
     res.status(500).json({ message: 'Error while creating user' });
   }
@@ -31,7 +40,6 @@ try {
   }
 
   const payload = { id: user._id };
-  console.log(payload)
   const token = jwt.sign(payload, process.env.TOKEN_SECRET, {
     expiresIn: '12h',
   });

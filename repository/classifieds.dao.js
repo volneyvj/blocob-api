@@ -6,8 +6,6 @@ class ClassifiedRepository {
         this.classified = ClassifiedModel;
     }
 
-
-
     getAllFromNeighborhood = async (neighborhood) => {
         try {
             const classifieds = await this.classified.find({ neighborhood: neighborhood })
