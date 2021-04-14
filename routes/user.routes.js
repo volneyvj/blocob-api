@@ -12,8 +12,6 @@ router.post("/signup", async (req, res) => {
     const user = await userRepo.register(req.body);
     // console.log(`esse eh o usuario ${user}`)
     //  res.set("Authorization", token);
-    console.log(user)
-
     const payload = { id: user._id };
     const token = jwt.sign(payload, process.env.TOKEN_SECRET, {
       expiresIn: '12h',
@@ -80,10 +78,9 @@ router.post("/edit", async (req, res) => {
   });
 
   router.post('/userdetails', async (req, res) => {
-    const email = req.body
-    console.log(email)
+    const id = req.body
     try {
-      const user = await userRepo.findUser(email);
+      const user = await userRepo.findUserID(id);
       res.status(200).json(user);
     } catch (error) {
       res.status(500).json({ message: 'Error while getting user' });

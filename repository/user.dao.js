@@ -30,7 +30,7 @@ class UserRepository {
 
   async findUserID(id) {
     try {
-      const user = await this.User.findById(id);
+      const user = await this.User.findById(id.id);
       return user;
     } catch (err) {
       throw new ApplicationError(err);
@@ -53,10 +53,6 @@ class UserRepository {
       const passwordHash = auth.encrypt(user.password);
       const newUser = new this.User( {...user, passwordHash} );
       newUser.save();
-      const payload = { id: newUser._id };
-      const token = jwt.sign(payload, process.env.TOKEN_SECRET, {
-        expiresIn: '12h',
-      });
       return newUser;
     } catch (err) {
       throw new ApplicationError(err);
