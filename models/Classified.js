@@ -11,7 +11,7 @@ const classifiedSchema = new Schema(
             type: String,
             max: 50,
         },
-        likes: [String],
+        likes: [{ type: Schema.Types.ObjectId, ref: 'User' }],
         dislikes: [{ type: Schema.Types.ObjectId, ref: 'User' }],
         title: {
             type: String,

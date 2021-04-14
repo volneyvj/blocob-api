@@ -28,7 +28,6 @@ router.post('/list/answer', async (req, res) => {
 
 
 router.post('/add', async (req, res) => {
-  console.log(req.body)
     const {  userId, category, classifiedID, answerOriginID, comment, status } = req.body
   try {
     const newComment = await commentRepo.postComment({  userId, category, classifiedID, answerOriginID, comment, status });

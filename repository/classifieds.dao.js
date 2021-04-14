@@ -18,8 +18,10 @@ class ClassifiedRepository {
     };
 
     getTopEight = async (neighborhood) => {
+        console.log(`qual e esse ${neighborhood}`)
         try {
-            const topEight = await this.classified.find({ neighborhood: neighborhood }).aggregate({$unwind:"$likes"}, { $group : {_id:'$_id', ct:{$sum:1}}}, { $sort :{ ct: -1}} );
+            const topEight = await this.classified.find({ neighborhood: neighborhood })
+            // .aggregate({$unwind:"$likes"}, { $group : {_id:'$_id', ct:{$sum:1}}}, { $sort :{ ct: -1}} );
             // .populate('users')
             // .populate('comments');
             return topEight
@@ -43,9 +45,9 @@ class ClassifiedRepository {
 
 
     getAllFromUser = async (user) => {
-        const { id } = user;
+        const { userID } = user;
         try {
-            const classifieds = await this.classified.find({userID: id})
+            const classifieds = await this.classified.find({userID: userID})
             // .populate('users')
             // .populate('comments');
             return classifieds
@@ -67,7 +69,6 @@ class ClassifiedRepository {
     };
   
     addClassified = async (newClassified) => {
-        console.log(newClassified)
         try {
             const createdClassified = await this.classified.create(newClassified);
             return createdClassified;
@@ -93,28 +94,53 @@ class ClassifiedRepository {
     };
 
     rankClassified = async (classified) => {
-        const { id } = classified;
-        console.log(classified)
+        const { id, likes } = classified;
         try {
+            const hasLiked = await this.classified.find({likes: { $in: [likes] }})
+            // console.log(hasLiked)
+            if (hasLiked.length === 0) {
             const rankedClassified = await this.classified.findByIdAndUpdate(
                 id, 
-{$push: {likes: "1",}},
-                {
-                }
+{$push: {likes: likes}},
               )
-            return rankedClassified;
+              return rankedClassified;
+            }
+            else {
+            // let index = hasLiked[0].likes.indexOf(likes)
+            // console.log(index)
+            const rankedClassified = await this.classified.findByIdAndUpdate(
+                    id, 
+                   { $pull: { likes: likes } },
+                    )
+            }
+            return;
         } catch (error) {
             throw new ApplicationError(err);
         }
     };
 
     deleteClassified = async (id) => {
-        console.log(id)
         try {
             const deletedClassified = await this.classified.findByIdAndDelete(id)
             return deletedClassified;
         } catch (error) {
         throw new ApplicationError(err);
+        }
+    };
+
+    checkLike = async (classified) => {
+        const { id, likes } = classified;
+        try {
+            const hasLiked = await this.classified.find({likes: { $in: [likes] }})
+            if (hasLiked.length === 0) {
+              return false;
+            }
+            else {
+            return true
+        } 
+    }
+            catch (error) {
+            throw new ApplicationError(err);
         }
     };
 

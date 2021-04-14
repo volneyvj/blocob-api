@@ -38,9 +38,8 @@ router.post('/list/search', async (req, res) => {
   });
   
   router.post('/list/user', async (req, res) => {
-    const { userID } = req.body
     try {
-      const classifieds = await classifiedRepo.getAllFromUser(userID);
+      const classifieds = await classifiedRepo.getAllFromUser(req.body);
       res.status(200).json(classifieds);
     } catch (error) {
       res.status(500).json({ message: 'Error while get classifieds' });
@@ -80,9 +79,9 @@ router.post('/edit/', async (req, res) => {
 });
 
 router.post('/rank/', async (req, res) => {
-    const {id, likes, dislikes } = req.body
+    const {id, likes } = req.body
   try {
-    const rankedClassified = await classifiedRepo.rankClassified({ id, likes, dislikes });
+    const rankedClassified = await classifiedRepo.rankClassified({ id, likes });
     res.status(201).json(rankedClassified);
   } catch (error) {
     res.status(500).json({ message: 'Error While ranking Classified' });
@@ -99,5 +98,16 @@ router.post('/delete/', async (req, res) => {
     res.status(500).json({ message: 'Error While deleting Classified' });
   }
 });
+
+router.post('/checklike/', async (req, res) => {
+  const {id, likes } = req.body
+  try {
+    const rankedClassified = await classifiedRepo.rankClassified({ id, likes });
+    res.status(201).json(rankedClassified);
+  } catch (error) {
+    res.status(500).json({ message: 'Error While ranking Classified' });
+  }
+});
+
 
 module.exports = router;
