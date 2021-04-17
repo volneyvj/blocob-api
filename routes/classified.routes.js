@@ -28,7 +28,6 @@ router.post('/list/search', async (req, res) => {
   
   router.post('/list/sort', async (req, res) => {
     const { neighborhood } = req.body
-    console.log(req.body);
     try {
       const classifieds = await classifiedRepo.getTopEight(neighborhood);
       res.status(200).json(classifieds);

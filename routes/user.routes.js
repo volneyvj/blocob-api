@@ -12,6 +12,7 @@ router.post("/signup", async (req, res) => {
     const user = await userRepo.register(req.body);
     // console.log(`esse eh o usuario ${user}`)
     //  res.set("Authorization", token);
+
     const payload = { id: user._id };
     const token = jwt.sign(payload, process.env.TOKEN_SECRET, {
       expiresIn: '12h',
@@ -38,11 +39,12 @@ try {
   }
 
   const payload = { id: user._id };
+  
   const token = jwt.sign(payload, process.env.TOKEN_SECRET, {
     expiresIn: '12h',
   });
   res.set("Authorization", token);
-  return res.status(200).json({ id: user._id, user: user.email, token });
+  return res.status(200).json({ id: user._id, neighborhood: user.neighborhood, user: user.email, token });
 } catch (error) {
   res.status(500).json({ message: 'Error while login user' });
 }
