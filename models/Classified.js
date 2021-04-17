@@ -5,7 +5,7 @@ const classifiedSchema = new Schema(
         userID: { type: Schema.Types.ObjectId, ref: 'User' },
         category: {
             type: String,
-            enum: ['product', 'service', 'project'],
+            enum: ['Produto', 'Serviço', 'Projeto'],
        },
         subcategory: {
             type: String,

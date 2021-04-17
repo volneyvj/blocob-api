@@ -24,6 +24,7 @@ class ClassifiedRepository {
             // .aggregate({$unwind:"$likes"}, { $group : {_id:'$_id', ct:{$sum:1}}}, { $sort :{ ct: -1}} );
             // .populate('users')
             // .populate('comments');
+            console.log(topEight)
             return topEight
         } catch (error) {
           throw new ApplicationError(err);

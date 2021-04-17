@@ -2,7 +2,7 @@ const { Schema, model } = require('mongoose');
 
 
 const randomName = () => {
-   return `anonymous ${Math.random()*99}`
+   return `any${Math.floor(Math.random()*99,-2)}`
 }
 
 const userSchema = new Schema(
