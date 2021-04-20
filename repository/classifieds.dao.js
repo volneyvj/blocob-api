@@ -6,44 +6,47 @@ class ClassifiedRepository {
         this.classified = ClassifiedModel;
     }
 
-    getAllFromNeighborhood = async (neighborhood) => {
+    getAllFromNeighborhood = async (payload) => {
+        const neighborhood  = payload
         try {
             const classifieds = await this.classified.find({ neighborhood: neighborhood })
            // .populate('users')
             // .populate('comments');
-            return classifieds
+             return classifieds
         } catch (error) {
         throw new ApplicationError(err);
         }
     };
 
     getTopEight = async (neighborhood) => {
-        console.log(`qual e esse ${neighborhood}`)
         try {
-            const topEight = await this.classified.find({ neighborhood: neighborhood })
+            const topEight = await this.classified.find({ neighborhood: neighborhood }).limit(3);
             // .aggregate({$unwind:"$likes"}, { $group : {_id:'$_id', ct:{$sum:1}}}, { $sort :{ ct: -1}} );
             // .populate('users')
             // .populate('comments');
-            console.log(topEight)
+            // console.log(topEight)
             return topEight
         } catch (error) {
           throw new ApplicationError(err);
         }
     };
 
-
-    getAllFromQuery = async (search) => {
-        const { query } = search;
+    getAllFromQuery = async (payload) => {
+        const { neighborhood, query } = payload
         try {
-            const classifieds = await this.classified.find({ $or: [{ "title": { $regex: `.*${query}.*` } }, { "description": { $regex: `.*${query}.*` } }] })
-            // .populate('users')
+            const classifieds = await this.classified.find({
+                $and: [
+                    { neighborhood: neighborhood },
+                    { $or: [{ "title": { $regex: `.*${query}.*` } }, { "description": { $regex: `.*${query}.*` }}] }
+                ]
+            })
+           // .populate('users')
             // .populate('comments');
-            return classifieds
+             return classifieds
         } catch (error) {
-          throw new ApplicationError(err);
+        throw new ApplicationError(err);
         }
     };
-
 
     getAllFromUser = async (user) => {
         const { userID } = user;
@@ -61,8 +64,7 @@ class ClassifiedRepository {
         // const { id } = classified;
         try {
             const singleClassified = await this.classified.find({_id: id})
-            // .populate('users')
-            // .populate('comments');
+            .populate('User')
             return singleClassified
         } catch (error) {
           throw new ApplicationError(err);
