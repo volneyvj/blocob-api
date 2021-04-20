@@ -16,9 +16,9 @@ router.post('/list', async (req, res) => {
 
 
 router.post('/list/search', async (req, res) => {
-    const { search } = req.body
+  const { neighborhood, query} = req.body
     try {
-      const classifieds = await classifiedRepo.getAllFromQuery(search);
+      const classifieds = await classifiedRepo.getAllFromQuery({neighborhood, query});
       res.status(200).json(classifieds);
     } catch (error) {
       res.status(500).json({ message: 'Error while get classifieds' });
@@ -68,7 +68,6 @@ router.post('/add', async (req, res) => {
 
 router.post('/edit/', async (req, res) => {
     const { id, userID, subcategory, title, neighborhood, description, imgURL, price, measure, delivery, motive, investment, filePDF, address, desiredDate, status} = req.body
-    // console.log(req.body)
     try {
     const newClassified = await classifiedRepo.updateClassified({ id, userID, subcategory, title, neighborhood, description, imgURL, price, measure, delivery, motive, investment, filePDF, address, desiredDate, status });
     res.status(201).json(newClassified);

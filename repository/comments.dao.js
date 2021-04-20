@@ -31,7 +31,7 @@ class CommentRepository {
     };
 
     postComment = async (newComment) => {
-        // console.log(newComment)
+       
         const {  userId, category, classifiedID, answerOriginID, comment, status } = newComment;
         try {
             const createdPost = await this.comment.create({ userId, category, classifiedID, answerOriginID, comment, status });
