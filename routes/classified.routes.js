@@ -86,6 +86,15 @@ router.post('/rank/', async (req, res) => {
   }
 });
 
+router.post('/checkrank/', async (req, res) => {
+  const {id, likes } = req.body
+  try {
+    const userLiked = await classifiedRepo.checkRankClassified({id, likes});
+    res.status(201).json(userLiked);
+  } catch (error) {
+    res.status(500).json({ message: 'Error while checking rank' });
+  }
+});
 
 router.post('/delete/', async (req, res) => {
     const { id } = req.body

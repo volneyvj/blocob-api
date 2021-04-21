@@ -99,8 +99,7 @@ class ClassifiedRepository {
     rankClassified = async (classified) => {
         const { id, likes } = classified;
         try {
-            const hasLiked = await this.classified.find({likes: { $in: [likes] }})
-            // console.log(hasLiked)
+            const hasLiked = await this.classified.find( {$and: [{likes: { $in: [likes]}}, {_id: id} ]}) 
             if (hasLiked.length === 0) {
             const rankedClassified = await this.classified.findByIdAndUpdate(
                 id, 
@@ -110,13 +109,27 @@ class ClassifiedRepository {
             }
             else {
             // let index = hasLiked[0].likes.indexOf(likes)
-            // console.log(index)
             const rankedClassified = await this.classified.findByIdAndUpdate(
                     id, 
                    { $pull: { likes: likes } },
                     )
             }
-            return;
+            const like = false
+            return like;
+        } catch (error) {
+            throw new ApplicationError(err);
+        }
+    };
+
+    checkRankClassified = async (payload) => {
+        const { id, likes } = payload;
+        try {
+            const hasLiked = await this.classified.find( {$and: [{likes: { $in: [likes]}}, {_id: id} ]}) 
+            if (hasLiked.length === 0) {
+                return false;
+    } else {
+         return true ;
+    }
         } catch (error) {
             throw new ApplicationError(err);
         }
