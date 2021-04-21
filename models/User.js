@@ -32,7 +32,7 @@ const userSchema = new Schema(
         lastName: String,
         cep: {
             type: String,
-            match: [/^\d{5}-\d{3}$/, 'cep inválido'], 
+            // match: [/^\d{5}-\d{3}$/, 'cep inválido'], 
         },
         street: String,
         streetNumber: String,
