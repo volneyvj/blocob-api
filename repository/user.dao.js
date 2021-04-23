@@ -5,6 +5,7 @@ const jwt = require("jsonwebtoken");
 const { Router } = require("express");
 const router = Router();
 
+
 class UserRepository {
   constructor(UserModel) {
     this.User = UserModel;
@@ -39,7 +40,7 @@ class UserRepository {
 
   async findNeighboors(neighborhood) {
     try {
-     const users = await this.User.find({neighborhood})
+     const users = await this.User.find({neighborhood: neighborhood.neighborhood}).limit(10)
       return users;
     } catch (err) {
       throw new ApplicationError(err);
