@@ -6,6 +6,8 @@ const authUtils = require("../utils/auth.utils");
 
 const router = Router();
 
+const uploader = require('../config/cloudinary-setup-config');
+ 
 router.post("/signup", async (req, res) => {
 
   try {
@@ -48,10 +50,32 @@ try {
 });
 
 
-router.post("/edit", async (req, res) => {
+
+router.post('/upload', uploader.single('imgURL'),  async (req, res, next) => {
+  console.log('file is: ', req.file)
+  try {
+    res.status(201).json(req.file)
+  } catch (error) {
+    res.status(500).json(req.file)
+  }
+ 
+//  if (!req.file) {
+//     next(new Error('No file uploaded!'));
+//      return;
+//    }
+//   res.json({ secure_url: req.file.path });
+});
+
+router.post("/edit", uploader.single('imgURL'), async (req, res) => {
     const { id, email, cpf, username, password, name, lastName, cep, street, streetNumber, streetComplement, neighborhood, city, state, phone,
-        mobile, birthDate, profession, imgURL, score, lastZipCodeUpdate, status } = req.body;
+        mobile, birthDate, profession, score, lastZipCodeUpdate, status } = req.body;
+    if (!req.file) {
+      throw new Error('No file uploaded');
+    }
+    console.log(req.file)
+    console.log(req.body)
    try {
+        const imgURL = req.file.path
         const user = await userRepo.User.findByIdAndUpdate(
         id, {
             email, cpf, username, password, name, lastName, cep, street, streetNumber, streetComplement, neighborhood, city, state, phone,
@@ -62,7 +86,7 @@ router.post("/edit", async (req, res) => {
       );
     return res.status(201).json(user);
   } catch (error) {
-    res.status(500).json({ message: 'Error while editing user' });
+    res.status(500).json(error.message);
   }
   });
 
@@ -86,10 +110,10 @@ router.post("/edit", async (req, res) => {
     }
   });
 
-  router.get('/allusers', async (req, res) => {
-    const email = req.body
+  router.post('/allusers', async (req, res) => {
+    const neighborhood = req.body
     try {
-      const user = await userRepo.findAllUsers();
+      const user = await userRepo.findNeighboors(neighborhood);
       res.status(200).json(user);
     } catch (error) {
       res.status(500).json({ message: 'Error while getting user' });

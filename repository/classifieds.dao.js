@@ -1,5 +1,6 @@
 const Classified = require('../models/Classified');
 const ApplicationError = require('../errors/ApplicationError');
+ObjectId = require('mongodb').ObjectID;
 
 class ClassifiedRepository {
     constructor(ClassifiedModel) {
@@ -48,8 +49,8 @@ class ClassifiedRepository {
         }
     };
 
-    getAllFromUser = async (user) => {
-        const { userID } = user;
+    getAllFromUser = async (payload) => {
+        const { userID } = payload
         try {
             const classifieds = await this.classified.find({userID: userID})
             // .populate('users')
