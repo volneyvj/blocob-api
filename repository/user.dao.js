@@ -75,6 +75,20 @@ class UserRepository {
       throw new ApplicationError(err);
     }
   }
+
+  async updatePassword(email, password) {
+    const passwordHash = auth.encrypt(password);
+    try {
+      const updatepassword = await this.User.findOneAndUpdate(
+        {email:email},
+        {   passwordHash },
+      );
+      return updatepassword;
+    } catch (err) {
+      throw new ApplicationError(err);
+    }
+  }
+
 }
 
 module.exports = new UserRepository(User);

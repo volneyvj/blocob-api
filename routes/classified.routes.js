@@ -4,6 +4,9 @@ const classifiedRepo = require('../repository/classifieds.dao');
 
 const router = Router();
 
+const uploader = require('../config/cloudinary-setup-config');
+ 
+
 router.post('/list', async (req, res) => {
     const { neighborhood } = req.body
   try {
@@ -56,9 +59,14 @@ router.post('/list/search', async (req, res) => {
   });
 
 
-router.post('/add', async (req, res) => {
+
+router.post('/add', uploader.single('imgURL'), async (req, res) => {
+  const { userID, category, subcategory, title, neighborhood, description, price, measure, motive, investment, filePDF, address, desiredDate, status } = req.body;
   try {
-    const newClassified = await classifiedRepo.addClassified(req.body);
+    const imgURL = req.file.path
+    const newClassified = await classifiedRepo.addClassified({
+     userID, category, subcategory, title, neighborhood, description, price, measure, motive, investment, filePDF, address, desiredDate, status, imgURL
+    });
     res.status(201).json(newClassified);
   } catch (error) {
     res.status(500).json({ message: 'Error While create new Classified' });
@@ -66,9 +74,10 @@ router.post('/add', async (req, res) => {
 });
 
 
-router.post('/edit/', async (req, res) => {
-    const { id, userID, subcategory, title, neighborhood, description, imgURL, price, measure, delivery, motive, investment, filePDF, address, desiredDate, status} = req.body
+router.post('/edit/', uploader.single('imgURL'), async (req, res) => {
+    const { id, userID, subcategory, title, neighborhood, description, price, measure, delivery, motive, investment, filePDF, address, desiredDate, status} = req.body
     try {
+    const imgURL = req.file.path
     const newClassified = await classifiedRepo.updateClassified({ id, userID, subcategory, title, neighborhood, description, imgURL, price, measure, delivery, motive, investment, filePDF, address, desiredDate, status });
     res.status(201).json(newClassified);
   } catch (error) {

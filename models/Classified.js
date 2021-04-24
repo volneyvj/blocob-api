@@ -33,7 +33,7 @@ const classifiedSchema = new Schema(
         investment: Number,
         filePDF: String,
         address: String,
-        desiredDate: Date,
+        desiredDate: String,
         confirmedUsers: [{ type: Schema.Types.ObjectId, ref: 'User' }],
         // 
         status: Number,

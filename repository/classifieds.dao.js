@@ -57,7 +57,7 @@ class ClassifiedRepository {
             // .populate('comments');
             return classifieds
         } catch (error) {
-          throw new ApplicationError(err);
+          throw new ApplicationError(error);
         }
     };
 
@@ -68,7 +68,7 @@ class ClassifiedRepository {
             .populate('User')
             return singleClassified
         } catch (error) {
-          throw new ApplicationError(err);
+          throw new ApplicationError(error);
         }
     };
   
@@ -77,7 +77,7 @@ class ClassifiedRepository {
             const createdClassified = await this.classified.create(newClassified);
             return createdClassified;
         } catch (error) {
-        throw new ApplicationError(err);
+        throw new ApplicationError(error);
         }
     };
 
@@ -93,7 +93,7 @@ class ClassifiedRepository {
               )
             return updatedClassified;
         } catch (error) {
-            throw new ApplicationError(err);
+            throw new ApplicationError(error);
         }
     };
 
@@ -118,7 +118,7 @@ class ClassifiedRepository {
             const like = false
             return like;
         } catch (error) {
-            throw new ApplicationError(err);
+            throw new ApplicationError(error);
         }
     };
 
@@ -132,7 +132,7 @@ class ClassifiedRepository {
          return true ;
     }
         } catch (error) {
-            throw new ApplicationError(err);
+            throw new ApplicationError(error);
         }
     };
 
@@ -141,7 +141,7 @@ class ClassifiedRepository {
             const deletedClassified = await this.classified.findByIdAndDelete(id)
             return deletedClassified;
         } catch (error) {
-        throw new ApplicationError(err);
+        throw new ApplicationError(error);
         }
     };
 
@@ -157,7 +157,7 @@ class ClassifiedRepository {
         } 
     }
             catch (error) {
-            throw new ApplicationError(err);
+            throw new ApplicationError(error);
         }
     };
 
