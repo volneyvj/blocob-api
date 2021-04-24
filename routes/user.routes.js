@@ -68,12 +68,10 @@ router.post('/upload', uploader.single('imgURL'),  async (req, res, next) => {
 
 router.post("/edit", uploader.single('imgURL'), async (req, res) => {
     const { id, email, cpf, username, password, name, lastName, cep, street, streetNumber, streetComplement, neighborhood, city, state, phone,
-        mobile, birthDate, profession, score, lastZipCodeUpdate, status } = req.body;
+        mobile, birthDate, profession } = req.body;
     if (!req.file) {
       throw new Error('No file uploaded');
     }
-    console.log(req.file)
-    console.log(req.body)
    try {
         const imgURL = req.file.path
         const user = await userRepo.User.findByIdAndUpdate(
