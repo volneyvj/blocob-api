@@ -62,7 +62,7 @@ class UserRepository {
 
   async updateUser(userId, updateUser) {
     const {   email, cpf, username, password, name, lastName, cep, street, streetNumber, streetComplement, neighborhood, city, state, phone,
-        mobile, birthDate, profession, imgURL, score, lastZipCodeUpdate, status } = updateUser;
+        mobile, birthDate, profession, imgURL } = updateUser;
     const passwordHash = this.generateHash(password);
     try {
       const updatedUser = await this.User.findByIdAndUpdate(
