@@ -21,7 +21,7 @@ class ClassifiedRepository {
 
     getTopEight = async (neighborhood) => {
         try {
-            const topEight = await this.classified.find({ neighborhood: neighborhood }).limit(3);
+            const topEight = await this.classified.find({ neighborhood: neighborhood }).limit(6);
             // .aggregate({$unwind:"$likes"}, { $group : {_id:'$_id', ct:{$sum:1}}}, { $sort :{ ct: -1}} );
             // .populate('users')
             // .populate('comments');
