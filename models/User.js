@@ -47,7 +47,7 @@ const userSchema = new Schema(
         imgURL: String,
         classifieds: [String],
         score: Number,
-        lastZipCodeUpdate: Date,
+        lastZipCodeUpdate: String,
         status: Number,
     },
     {

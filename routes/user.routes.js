@@ -111,8 +111,43 @@ router.post("/edit", uploader.single("imgURL"), async (req, res) => {
         profession,
         imgURL,
         score,
-        lastZipCodeUpdate,
         status,
+      },
+      {
+        new: true,
+      }
+    );
+    return res.status(201).json(user);
+  } catch (error) {
+    res.status(500).json(error.message);
+  }
+});
+
+router.post("/editCEP", async (req, res) => {
+  const {
+    id,
+    cep,
+    street,
+    streetNumber,
+    streetComplement,
+    neighborhood,
+    city,
+    state,
+    lastZipCodeUpdate,
+  } = req.body;
+  // console.log(req.body)
+  try {
+    const user = await userRepo.User.findByIdAndUpdate(
+      id,
+      {
+        cep,
+        street,
+        streetNumber,
+        streetComplement,
+        neighborhood,
+        city,
+        state,
+        lastZipCodeUpdate,
       },
       {
         new: true,
