@@ -10,8 +10,7 @@ class CommentRepository {
     getComment = async (classified) => {
         try {
             const comments = await this.comment.find({ classifiedID: classified })
-           // .populate('users')
-            // .populate('comments');
+           .populate('userID')
             return comments
         } catch (error) {
             throw new ApplicationError(err);
@@ -32,9 +31,9 @@ class CommentRepository {
 
     postComment = async (newComment) => {
        
-        const {  userId, category, classifiedID, answerOriginID, comment, status } = newComment;
+        const {  userID, category, classifiedID, answerOriginID, comment, status } = newComment;
         try {
-            const createdPost = await this.comment.create({ userId, category, classifiedID, answerOriginID, comment, status });
+            const createdPost = await this.comment.create({ userID, category, classifiedID, answerOriginID, comment, status });
             // .populate('users')
             // .populate('comments');
             return createdPost

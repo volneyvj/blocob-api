@@ -68,7 +68,7 @@ class UserRepository {
       const updatedUser = await this.User.findByIdAndUpdate(
         userId,
         {   email, cpf, username, passwordHash, name, lastName, cep, street, streetNumber, streetComplement, neighborhood, city, state, phone,
-            mobile, birthDate, profession, imgURL, score, lastZipCodeUpdate, status },
+            mobile, birthDate, profession, imgURL, lastZipCodeUpdate, status },
       );
       return updatedUser;
     } catch (err) {

@@ -42,7 +42,7 @@ const userSchema = new Schema(
         state: String,
         phone: String,
         mobile: String,
-        birthDate: Date,
+        birthDate: String,
         profession: String,
         imgURL: String,
         classifieds: [String],

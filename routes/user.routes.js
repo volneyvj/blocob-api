@@ -84,11 +84,13 @@ router.post("/edit", uploader.single("imgURL"), async (req, res) => {
     birthDate,
     profession,
   } = req.body;
-  if (!req.file) {
-    throw new Error("No file uploaded");
-  }
+  
+    let imgURL = "https://res.cloudinary.com/dmljk0bkp/image/upload/v1619569863/blocob-gallery/nijtixamh9dsmsj2nxaf.png"
+
   try {
-    const imgURL = req.file.path;
+    if (req.file) {
+     imgURL = req.file.path;
+    }
     const user = await userRepo.User.findByIdAndUpdate(
       id,
       {
@@ -110,8 +112,6 @@ router.post("/edit", uploader.single("imgURL"), async (req, res) => {
         birthDate,
         profession,
         imgURL,
-        score,
-        status,
       },
       {
         new: true,

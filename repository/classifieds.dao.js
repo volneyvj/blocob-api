@@ -7,13 +7,13 @@ class ClassifiedRepository {
         this.classified = ClassifiedModel;
     }
 
-    getAllFromNeighborhood = async (payload) => {
-        const neighborhood  = payload
+    getAllFromNeighborhood = async (neighborhood) => {
         try {
-            const classifieds = await this.classified.find({ neighborhood: neighborhood })
+            const classifieds = await this.classified.find({ neighborhood: neighborhood }).limit(30);
            // .populate('users')
             // .populate('comments');
              return classifieds
+             
         } catch (error) {
         throw new ApplicationError(err);
         }
@@ -35,12 +35,13 @@ class ClassifiedRepository {
     getAllFromQuery = async (payload) => {
         const { neighborhood, query } = payload
         try {
-            const classifieds = await this.classified.find({
+            let classifieds = await this.classified.find({
                 $and: [
                     { neighborhood: neighborhood },
                     { $or: [{ "title": { $regex: `.*${query}.*` } }, { "description": { $regex: `.*${query}.*` }}] }
                 ]
             })
+            console.log(classifieds)
            // .populate('users')
             // .populate('comments');
              return classifieds
