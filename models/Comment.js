@@ -2,7 +2,7 @@ const { Schema, model } = require('mongoose');
 
 const commentSchema = new Schema(
     {
-        userId: { type: Schema.Types.ObjectId, ref: 'User' },
+        userID: { type: Schema.Types.ObjectId, ref: 'User' },
         category: {
             type: String,
             enum: ['news', 'classifieds', 'answer'],

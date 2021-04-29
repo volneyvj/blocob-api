@@ -62,8 +62,11 @@ router.post('/list/search', async (req, res) => {
 
 router.post('/add', uploader.single('imgURL'), async (req, res) => {
   const { userID, category, subcategory, title, neighborhood, description, price, measure, motive, investment, filePDF, address, desiredDate, status } = req.body;
+  let imgURL = "https://res.cloudinary.com/dmljk0bkp/image/upload/v1619569135/blocob-gallery/qnradxhwgrejldvtpx9e.jpg"
   try {
-    const imgURL = req.file.path
+    if (req.file) {
+       imgURL = req.file.path
+    }
     const newClassified = await classifiedRepo.addClassified({
      userID, category, subcategory, title, neighborhood, description, price, measure, motive, investment, filePDF, address, desiredDate, status, imgURL
     });
@@ -76,8 +79,11 @@ router.post('/add', uploader.single('imgURL'), async (req, res) => {
 
 router.post('/edit/', uploader.single('imgURL'), async (req, res) => {
     const { id, userID, subcategory, title, neighborhood, description, price, measure, delivery, motive, investment, filePDF, address, desiredDate, status} = req.body
+    let imgURL = "https://res.cloudinary.com/dmljk0bkp/image/upload/v1619569135/blocob-gallery/qnradxhwgrejldvtpx9e.jpg"
     try {
-    const imgURL = req.file.path
+      if (req.file) {
+        imgURL = req.file.path
+      }
     const newClassified = await classifiedRepo.updateClassified({ id, userID, subcategory, title, neighborhood, description, imgURL, price, measure, delivery, motive, investment, filePDF, address, desiredDate, status });
     res.status(201).json(newClassified);
   } catch (error) {

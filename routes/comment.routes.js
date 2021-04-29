@@ -28,9 +28,9 @@ router.post('/list/answer', async (req, res) => {
 
 
 router.post('/add', async (req, res) => {
-    const {  userId, category, classifiedID, answerOriginID, comment, status } = req.body
+    const {  userID, category, classifiedID, answerOriginID, comment, status } = req.body
   try {
-    const newComment = await commentRepo.postComment({  userId, category, classifiedID, answerOriginID, comment, status });
+    const newComment = await commentRepo.postComment({  userID, category, classifiedID, answerOriginID, comment, status });
     res.status(201).json(newComment);
   } catch (error) {
     res.status(500).json({ message: 'Error While create new comment' });
