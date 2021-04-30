@@ -59,14 +59,13 @@ Routes Methods you can visualize at:
 
 Volney Koudsi Faustini – [@Linkedin](https://www.linkedin.com/in/volney-koudsi-faustini/) – volney.faustini@gmail.com
 
-[https://github.com/volneyvj/blocob-front](https://github.com/volneyvj/blocob-front)
 
-API Server GitHub link:
-[https://github.com/volneyvj/blocob-api](https://github.com/volneyvj/blocob-api)
+API Client GitHub link:
+[https://github.com/](https://github.com/volneyvj/blocob-front)
 
 ## Contributing
 
-1. Fork it (<https://github.com/yourname/yourproject/fork>)
+1. Fork it (<https://github.com/volneyvj/blocob-api/fork>)
 2. Create your feature branch (`git checkout -b feature/fooBar`)
 3. Commit your changes (`git commit -am 'Add some fooBar'`)
 4. Push to the branch (`git push origin feature/fooBar`)
