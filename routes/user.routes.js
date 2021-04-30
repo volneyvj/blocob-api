@@ -189,6 +189,47 @@ router.post("/allusers", async (req, res) => {
   }
 });
 
+router.post('/rank/', async (req, res) => {
+  const {id, likes } = req.body
+try {
+  const rankeduser = await userRepo.rankUser({ id, likes });
+  res.status(201).json(rankeduser);
+} catch (error) {
+  res.status(500).json({ message: 'Error While ranking user' });
+}
+});
+
+router.post('/checkrank/', async (req, res) => {
+const {id, likes } = req.body
+try {
+  const userLiked = await userRepo.checkRankUser({id, likes});
+  res.status(201).json(userLiked);
+} catch (error) {
+  res.status(500).json({ message: 'Error while checking rank' });
+}
+});
+
+router.post('/disrank/', async (req, res) => {
+  const {id, likes } = req.body
+try {
+  const disrankeduser = await userRepo.disrankUser({ id, likes });
+  res.status(201).json(disrankeduser);
+} catch (error) {
+  res.status(500).json({ message: 'Error While ranking user' });
+}
+});
+
+router.post('/checkdisrank/', async (req, res) => {
+const {id, likes } = req.body
+try {
+  const userdisliked = await userRepo.checkDisrank({id, likes});
+  res.status(201).json(userdisliked);
+} catch (error) {
+  res.status(500).json({ message: 'Error while checking rank' });
+}
+});
+
+
 router.post("/forget", async (req, res) => {
   const { email } = req.body;
   const newpassword = `jb${Math.floor(Math.random()*999,0)}y`
