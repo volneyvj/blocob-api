@@ -21,7 +21,7 @@ class ClassifiedRepository {
 
     getTopEight = async (neighborhood) => {
         try {
-            const topEight = await this.classified.find({ neighborhood: neighborhood }).limit(6);
+            const topEight = await this.classified.find({ neighborhood: neighborhood }).limit(6).sort({likes: -1})
             // .aggregate({$unwind:"$likes"}, { $group : {_id:'$_id', ct:{$sum:1}}}, { $sort :{ ct: -1}} );
             // .populate('users')
             // .populate('comments');
@@ -38,10 +38,9 @@ class ClassifiedRepository {
             let classifieds = await this.classified.find({
                 $and: [
                     { neighborhood: neighborhood },
-                    { $or: [{ "title": { $regex: `.*${query}.*` } }, { "description": { $regex: `.*${query}.*` }}] }
-                ]
+                    { $or: [{ "title": { $regex: query, "$options": "i" } }, { "description": { $regex: `.*${query}.*` }}] }
+                ]   
             })
-            console.log(classifieds)
            // .populate('users')
             // .populate('comments');
              return classifieds
@@ -66,7 +65,7 @@ class ClassifiedRepository {
         // const { id } = classified;
         try {
             const singleClassified = await this.classified.find({_id: id})
-            .populate('User')
+            .populate('userID')
             return singleClassified
         } catch (error) {
           throw new ApplicationError(error);

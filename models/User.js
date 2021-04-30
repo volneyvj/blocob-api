@@ -49,6 +49,8 @@ const userSchema = new Schema(
         score: Number,
         lastZipCodeUpdate: String,
         status: Number,
+        likes: [{ type: Schema.Types.ObjectId, ref: 'User' }],
+        dislikes: [{ type: Schema.Types.ObjectId, ref: 'User' }],
     },
     {
         timestamps: true

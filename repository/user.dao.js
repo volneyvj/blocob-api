@@ -68,7 +68,7 @@ class UserRepository {
       const updatedUser = await this.User.findByIdAndUpdate(
         userId,
         {   email, cpf, username, passwordHash, name, lastName, cep, street, streetNumber, streetComplement, neighborhood, city, state, phone,
-            mobile, birthDate, profession, imgURL, lastZipCodeUpdate, status },
+            mobile, birthDate, profession, imgURL, status },
       );
       return updatedUser;
     } catch (err) {
@@ -88,6 +88,86 @@ class UserRepository {
       throw new ApplicationError(err);
     }
   }
+
+  rankUser = async (user) => {
+    const { id, likes } = user;
+    console.log(id)
+    try {
+        const hasLiked = await this.User.find( {$and: [{likes: { $in: [likes]}}, {_id: id} ]}) 
+        if (hasLiked.length === 0) {
+        const rankeduser = await this.User.findByIdAndUpdate(
+            id, 
+{$push: {likes: likes}},
+          )
+          return rankeduser;
+        }
+        else {
+        // let index = hasLiked[0].likes.indexOf(likes)
+        const rankeduser = await this.User.findByIdAndUpdate(
+                id, 
+               { $pull: { likes: likes } },
+                )
+        }
+        const like = false
+        return like;
+    } catch (error) {
+        throw new ApplicationError(error);
+    }
+};
+
+checkRankUser = async (payload) => {
+    const { id, likes } = payload;
+    try {
+        const hasLiked = await this.User.find( {$and: [{likes: { $in: [likes]}}, {_id: id} ]}) 
+        if (hasLiked.length === 0) {
+            return false;
+} else {
+     return true ;
+}
+    } catch (error) {
+        throw new ApplicationError(error);
+    }
+};
+
+disrankUser = async (user) => {
+  const { id, likes } = user;
+  console.log(id)
+  try {
+      const hasDisliked = await this.User.find( {$and: [{dislikes: { $in: [likes]}}, {_id: id} ]}) 
+      if (hasDisliked.length === 0) {
+      const rankeduser = await this.User.findByIdAndUpdate(
+          id, 
+{$push: {dislikes: likes}},
+        )
+        return rankeduser;
+      }
+      else {
+      // let index = hasLiked[0].likes.indexOf(likes)
+      const rankeduser = await this.User.findByIdAndUpdate(
+              id, 
+             { $pull: { dislikes: likes } },
+              )
+      }
+      const like = false
+      return like;
+  } catch (error) {
+      throw new ApplicationError(error);
+  }
+};
+
+checkDisrank = async (payload) => {
+  const { id, likes } = payload;
+  try {
+      const hasDisliked = await this.User.find( {$and: [{dislikes: { $in: [likes]}}, {_id: id} ]}) 
+      if (hasDisliked.length === 0) {
+          return false;
+} else {
+   return true ;
+}
+  } catch (error) {
+      throw new ApplicationError(error);
+  }
+};
 
 }
 
