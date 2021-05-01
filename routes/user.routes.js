@@ -133,9 +133,8 @@ router.post("/editCEP", async (req, res) => {
     neighborhood,
     city,
     state,
-    lastZipCodeUpdate,
-  } = req.body;
-  // console.log(req.body)
+  } = req.body.data;
+  const zipdate = req.body.zipdate
   try {
     const user = await userRepo.User.findByIdAndUpdate(
       id,
@@ -147,7 +146,7 @@ router.post("/editCEP", async (req, res) => {
         neighborhood,
         city,
         state,
-        lastZipCodeUpdate,
+        lastZipCodeUpdate: zipdate,
       },
       {
         new: true,
